@@ -144,7 +144,7 @@ class TailwindPreset extends Preset
     {
         foreach (static::$views as $value) {
             copy(
-                __DIR__.'stubs/'.$value,
+                __DIR__.'/stubs/'.$value,
                 static::getViewPath($value)
             );
         }
