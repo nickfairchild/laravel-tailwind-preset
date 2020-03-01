@@ -4,8 +4,8 @@ namespace Nickfairchild\TailwindPreset;
 
 use Illuminate\Support\Arr;
 use Laravel\Ui\Presets\Preset;
+use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Contracts\Container\Container;
 
 class TailwindPreset extends Preset
 {
