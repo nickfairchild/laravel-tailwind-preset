@@ -142,7 +142,7 @@ class TailwindPreset extends Preset
      */
     protected static function exportViews()
     {
-        foreach (static::views as $value) {
+        foreach (static::$views as $value) {
             copy(
                 __DIR__.'stubs/'.$value,
                 static::getViewPath($value)
