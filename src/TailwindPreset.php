@@ -43,13 +43,12 @@ class TailwindPreset extends Preset
     /**
      * Install the auth preset.
      *
-     * @param $command
      * @return void
      */
-    public static function auth($command)
+    public static function auth()
     {
         static::ensureDirectoryExists();
-        static::exportViews($command);
+        static::exportViews();
         static::exportBackend();
     }
 
@@ -62,19 +61,19 @@ class TailwindPreset extends Preset
     protected static function updatePackageArray(array $packages)
     {
         return [
-                'laravel-mix' => '^4.0',
-                'laravel-mix-purgecss' => '^4.1',
-                'tailwindcss' => '^1.2',
-                '@tailwindcss/custom-forms' => '^0.2',
-                'postcss-import' => '^12.0',
-                'postcss-nested' => '^4.2'
-            ] + Arr::except($packages, [
-                'bootstrap',
-                'bootstrap-sass',
-                'popper.js',
-                'laravel-mix',
-                'jquery',
-            ]);
+            'laravel-mix' => '^4.0',
+            'laravel-mix-purgecss' => '^4.1',
+            'tailwindcss' => '^1.2',
+            '@tailwindcss/custom-forms' => '^0.2',
+            'postcss-import' => '^12.0',
+            'postcss-nested' => '^4.2'
+        ] + Arr::except($packages, [
+            'bootstrap',
+            'bootstrap-sass',
+            'popper.js',
+            'laravel-mix',
+            'jquery',
+        ]);
     }
 
     /**
@@ -149,21 +148,14 @@ class TailwindPreset extends Preset
     /**
      * Export the authentication views.
      *
-     * @param $command
      * @return void
      */
-    protected static function exportViews($command)
+    protected static function exportViews()
     {
         foreach (static::$views as $value) {
-            if (file_exists($view = static::getViewPath($value)) && ! $command->option('force')) {
-                if (! $command->comfirm("The [{$value}] view already exists. Do you want to replace it?")) {
-                    continue;
-                }
-            }
-
             copy(
                 __DIR__.'/stubs/resources/views/'.$value,
-                $view
+                static::getViewPath($value)
             );
         }
     }

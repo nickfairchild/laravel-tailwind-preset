@@ -13,14 +13,25 @@ class TailwindPresetServiceProvider extends ServiceProvider
             TailwindPreset::install();
 
             $command->info('Tailwind scaffolding installed successfully.');
-            $command->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
+            $command->comment('Please run "yarn && yarn dev" to compile your fresh scaffolding.');
 
             if ($command->option('auth')) {
                 $command->callSilent('ui:controllers');
 
-                TailwindPreset::auth($command);
+                TailwindPreset::auth();
 
                 $command->info('Authentication scaffolding generated successfully.');
+            }
+
+            if ($options = $command->option('option')) {
+                foreach ($options as $option) {
+                    if ($option === 'vue') {
+                        VuePreset::install();
+
+                        $command->info('Vue scaffolding generated successfully.');
+                        $command->comment('Please run "yarn && yarn dev" to compile your fresh scaffolding.');
+                    }
+                }
             }
         });
     }
