@@ -35,7 +35,7 @@ class VuePreset extends Preset
             'sass-loader' => '^8.0.0',
             'vue' => '^2.5.17',
             'vue-template-compiler' => '^2.6.10',
-        ];
+        ] + $packages;
     }
 
     /**
