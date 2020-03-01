@@ -16,7 +16,9 @@ class TailwindPresetServiceProvider extends ServiceProvider
             $command->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
 
             if ($command->option('auth')) {
-                TailwindPreset::auth();
+                $command->callSilent('ui:controllers');
+
+                TailwindPreset::auth($command);
 
                 $command->info('Authentication scaffolding generated successfully.');
             }

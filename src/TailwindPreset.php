@@ -9,6 +9,11 @@ use Illuminate\Filesystem\Filesystem;
 
 class TailwindPreset extends Preset
 {
+    /**
+     * The views that need to be exported.
+     *
+     * @var array
+     */
     protected static $views = [
         'auth/login.blade.php',
         'auth/passwords/confirm.blade.php',
@@ -35,10 +40,16 @@ class TailwindPreset extends Preset
         static::removeNodeModules();
     }
 
-    public static function auth()
+    /**
+     * Install the auth preset.
+     *
+     * @param $command
+     * @return void
+     */
+    public static function auth($command)
     {
         static::ensureDirectoryExists();
-        static::exportViews();
+        static::exportViews($command);
         static::exportBackend();
     }
 
@@ -138,14 +149,21 @@ class TailwindPreset extends Preset
     /**
      * Export the authentication views.
      *
+     * @param $command
      * @return void
      */
-    protected static function exportViews()
+    protected static function exportViews($command)
     {
         foreach (static::$views as $value) {
+            if (file_exists($view = static::getViewPath($value)) && ! $command->option('force')) {
+                if (! $command->comfirm("The [{$value}] view already exists. Do you want to replace it?")) {
+                    continue;
+                }
+            }
+
             copy(
                 __DIR__.'/stubs/resources/views/'.$value,
-                static::getViewPath($value)
+                $view
             );
         }
     }
